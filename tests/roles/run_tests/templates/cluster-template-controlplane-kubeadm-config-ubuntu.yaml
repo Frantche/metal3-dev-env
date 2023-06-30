@@ -15,6 +15,9 @@ preKubeadmCommands:
   - sleep 30
   - systemctl enable --now kubelet
   - sleep 120
+  - "export http_proxy={{ HTTP_PROXY }}"
+  - "export https_proxy={{ HTTPS_PROXY }}"
+  - "export NO_PROXY='{{ NO_PROXY_CLEANED }}'"
 postKubeadmCommands:
   - mkdir -p /home/{{ IMAGE_USERNAME }}/.kube
   - chown {{ IMAGE_USERNAME }}:{{ IMAGE_USERNAME }} /home/{{ IMAGE_USERNAME }}/.kube
@@ -66,3 +69,9 @@ files:
 
       [registries.insecure]
       registries = ['{{ REGISTRY }}']
+  - path : /etc/containers/registries.conf
+    content: |
+      [Service]
+      Environment="HTTP_PROXY={{ HTTP_PROXY }}"
+      Environment="HTTPS_PROXY={{ HTTPS_PROXY }}"
+      Environment="NO_PROXY={{ NO_PROXY_CLEANED }}"

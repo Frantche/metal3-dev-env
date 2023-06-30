@@ -6,6 +6,9 @@ preKubeadmCommands:
   - sleep 30
   - systemctl enable --now kubelet
   - sleep 120
+  - "export http_proxy={{ HTTP_PROXY }}"
+  - "export https_proxy={{ HTTPS_PROXY }}"
+  - "export NO_PROXY='{{ NO_PROXY_CLEANED }}'"
 files:
   - path : /etc/netplan/52-ironicendpoint.yaml
     owner: root:root
@@ -26,3 +29,9 @@ files:
 
        [registries.insecure]
        registries = ['{{ REGISTRY }}']
+  - path : /etc/containers/registries.conf
+    content: |
+      [Service]
+      Environment="HTTP_PROXY={{ HTTP_PROXY }}"
+      Environment="HTTPS_PROXY={{ HTTPS_PROXY }}"
+      Environment="NO_PROXY={{ NO_PROXY_CLEANED }}"
