@@ -14,6 +14,9 @@ preKubeadmCommands:
   - sleep 30
   - systemctl enable --now kubelet
   - sleep 120
+  - "export http_proxy={{ HTTP_PROXY }}"
+  - "export https_proxy={{ HTTPS_PROXY }}"
+  - "export NO_PROXY='{{ NO_PROXY_CLEANED }}'"
 files:
   - path: /usr/local/bin/retrieve.configuration.files.sh
     owner: root:root
@@ -107,3 +110,9 @@ files:
       addr-gen-mode=eui64
       method=ignore
 {% endif %}
+  - path : /etc/systemd/system/cri-o.service.d/http.conf
+    content: |
+      [Service]
+      Environment="HTTP_PROXY={{ HTTP_PROXY }}"
+      Environment="HTTPS_PROXY={{ HTTPS_PROXY }}"
+      Environment="NO_PROXY={{ NO_PROXY_CLEANED }}"

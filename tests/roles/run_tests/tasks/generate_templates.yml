@@ -23,6 +23,10 @@
       path: "{{ HOME }}/.cluster-api/clusterctl.yaml"
       create: yes 
       state: present
+  
+  - name: Debug variables NO_PROXY_STR
+    ansible.builtin.debug:
+      msg: "{{ NO_PROXY_CLEANED }}"
 
   - name: Generate clusterctl cluster template
     template:
@@ -38,7 +42,7 @@
       clusterctl_var: "{{ 'generate' if CAPI_VERSION == 'v1beta1' else 'config' }}"
     shell: >
       clusterctl {{ clusterctl_var }} cluster {{ CLUSTER_NAME }}
-      --from {{ HOME }}/.cluster-api/overrides/infrastructure-metal3/{{ CAPM3RELEASE }}/cluster-template-{{ item }}.yaml
+      --from {{ HOME }}/.cluster-api/overrides/infrastructure-metal3/{{ CAPM3RELEASE }}/cluster-template-{{ item }}.yaml
       --kubernetes-version {{ KUBERNETES_VERSION }}
       --control-plane-machine-count={{ CONTROL_PLANE_MACHINE_COUNT }}
       --worker-machine-count={{ WORKER_MACHINE_COUNT }}

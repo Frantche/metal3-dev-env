@@ -10,4 +10,5 @@ _clouds_yaml
 *.swp
 ipv6-*/
 vm-setup/roles/run_tests/files/manifests
+tests/roles/run_tests/files/manifests
 __pycache__

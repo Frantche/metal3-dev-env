@@ -11,3 +11,8 @@
       vars:
         go_version: 1.19.4
         go_install_clean: true
+
+  environment:
+    http_proxy: "{{ lookup('ansible.builtin.env', 'HTTP_PROXY', default='') }}"
+    https_proxy: "{{ lookup('ansible.builtin.env', 'HTTPS_PROXY', default='') }}"
+    no_proxy: "{{ lookup('ansible.builtin.env', 'NO_PROXY', default='') }}"

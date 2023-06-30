@@ -16,9 +16,27 @@ spec:
       apiVersion: infrastructure.cluster.x-k8s.io/{{ CAPM3_VERSION }}
       name: ${ CLUSTER_NAME }-controlplane
   kubeadmConfigSpec:
-    clusterConfiguration: {}
+    clusterConfiguration: 
+      apiServer:
+        extraArgs:
+          anonymous-auth: "true"
+          authorization-mode: RBAC,Node
+          default-not-ready-toleration-seconds: "60"
+          default-unreachable-toleration-seconds: "60"
+          disable-admission-plugins: AlwaysAdmit
+          enable-admission-plugins: AlwaysPullImages,NamespaceLifecycle,ServiceAccount,NodeRestriction
+        timeoutForControlPlane: 10m0s
+      controllerManager:
+        extraArgs:
+          feature-gates: RotateKubeletServerCertificate=true
+          terminated-pod-gc-threshold: "25"
+          use-service-account-credentials: "true"
     joinConfiguration:
-      controlPlane: {}
+      controlPlane:
+        localAPIEndpoint:
+          advertiseAddress: ""
+          bindPort: 0
+      discovery: {}
       nodeRegistration:
         name: "{{ '{{ ds.meta_data.name }}' }}"
         kubeletExtraArgs:
@@ -26,9 +44,14 @@ spec:
           provider-id: "metal3://{{ '{{ ds.meta_data.providerid }}' }}"
           feature-gates: "AllAlpha=false"
           cgroup-driver: "systemd"
-          container-runtime-endpoint: "unix:///var/run/crio/crio.sock"
           runtime-request-timeout: "5m"
+          event-qps: "0"
+          feature-gates: RotateKubeletServerCertificate=true
+          read-only-port: "0"
     initConfiguration:
+      localAPIEndpoint:
+        advertiseAddress: ""
+        bindPort: 0
       nodeRegistration:
         name: "{{ '{{ ds.meta_data.name }}' }}"
         kubeletExtraArgs:
@@ -36,8 +59,10 @@ spec:
           provider-id: "metal3://{{ '{{ ds.meta_data.providerid }}' }}"
           feature-gates: "AllAlpha=false"
           cgroup-driver: "systemd"
-          container-runtime-endpoint: "unix:///var/run/crio/crio.sock"
           runtime-request-timeout: "5m"
+          event-qps: "0"
+          feature-gates: RotateKubeletServerCertificate=true
+          read-only-port: "0"
     users:
     - name: {{ IMAGE_USERNAME }}
       sudo: "ALL=(ALL) NOPASSWD:ALL"

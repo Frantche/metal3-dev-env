@@ -20,6 +20,7 @@ if [[ "${IPA_DOWNLOAD_ENABLED}" = "true" ]] || [[ ! -r "${IRONIC_DATA_DIR}/html/
         #shellcheck disable=SC2086
         sudo "${CONTAINER_RUNTIME}" run --rm --net host --name ipa-downloader ${POD_NAME} \
           -e "IPA_BASEURI=${IPA_BASEURI:-}" \
+	        -e "HTTPS_PROXY=${HTTPS_PROXY:-}" \
           -v "${IRONIC_DATA_DIR}:/shared" "${IPA_DOWNLOADER_IMAGE}" \
           /bin/bash -c "/usr/local/bin/get-resource.sh &> /dev/null" && s=0 && break || s=$?
     done
