@@ -29,7 +29,7 @@ files:
 
        [registries.insecure]
        registries = ['{{ REGISTRY }}']
-  - path : /etc/systemd/system/crio.service.d/http.conf
+  - path : /etc/systemd/system/cri-o.service.d/http.conf
     content: |
       [Service]
       Environment="HTTP_PROXY={{ HTTP_PROXY }}"
