@@ -98,7 +98,7 @@ PROVISIONING_SUBNET_V4: "{{ lookup('env', 'PROVISIONING_SUBNET_V4', default='172
 PROVISIONING_SUBNET_V6: "{{ lookup('env', 'PROVISIONING_SUBNET_V6', default='fd56::/64') }}"
 
 NO_PROXY_LIST: "[{{ NO_PROXY }}, {{ POD_CIDR }}, {{ SERVICE_CIDR }}, {{ BARE_METAL_PROVISIONER_NETWORK }}, {{ EXTERNAL_SUBNET_V4 }}, {{ EXTERNAL_SUBNET_V6 }}, {{ PROVISIONING_SUBNET_V4 }}, {{ PROVISIONING_SUBNET_V6 }}]"
-NO_PROXY_CLEANED: "{{ test_list | ansible.netcommon.ipaddr | join(',') }}"
+NO_PROXY_CLEANED: "{{ NO_PROXY_LIST | ansible.netcommon.ipaddr | join(',') }}"
 
 # Args to pass to the deploy.sh script when deploying Ironic and BMO
 # [k]eepalived [t]ls [n]o basic auth or [m]ariadb
