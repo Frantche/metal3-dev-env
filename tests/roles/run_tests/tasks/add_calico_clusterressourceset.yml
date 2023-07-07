@@ -14,4 +14,4 @@
       dest: "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml"
 
   - name: Provision cluster
-    shell: kubectl apply -f "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml"
+    shell: kubectl apply -f "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml -n {{ NAMESPACE }} "
