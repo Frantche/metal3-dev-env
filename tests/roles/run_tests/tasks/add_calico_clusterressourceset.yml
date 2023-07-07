@@ -1,0 +1,17 @@
+---
+  - name: Download Calico manifest
+    shell: curl -L https://docs.projectcalico.org/manifests/calico.yaml -o calico.yaml
+
+  - name: Create calico configmap
+    shell: "kubectl create configmap calico-configmap --from-file=calico.yaml -o yaml --dry-run=client -n {{ NAMESPACE }} > calico-configmap.yaml"
+
+  - name: Deploy calico configmap
+    shell: kubectl apply -f calico-configmap.yaml
+
+  - name: Generate cluster resource set template
+    template:
+      src: "{{ CRS_PATH }}/cluster-resourceset"
+      dest: "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml"
+
+  - name: Provision cluster
+    shell: kubectl apply -f "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml"

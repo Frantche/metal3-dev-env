@@ -2,13 +2,16 @@
 preKubeadmCommands:
   - sed -i "s/MACAddressPolicy=persistent/MACAddressPolicy=none/g" /usr/lib/systemd/network/99-default.link
   - netplan apply
-  - systemctl enable --now crio
-  - sleep 30
+  - systemctl daemon-reload
+  - systemctl enable --now keepalived
+  - service keepalived restart
+  - systemctl enable --now cri-o
+  - service cri-o restart
   - systemctl enable --now kubelet
-  - sleep 120
-  - "export http_proxy={{ HTTP_PROXY }}"
-  - "export https_proxy={{ HTTPS_PROXY }}"
-  - "export NO_PROXY='{{ NO_PROXY_CLEANED }}'"
+  - service kubelet restart
+  - export http_proxy={{ HTTP_PROXY }}
+  - export https_proxy={{ HTTPS_PROXY }}
+  - export NO_PROXY='{{ NO_PROXY_CLEANED }}'
 files:
   - path : /etc/netplan/52-ironicendpoint.yaml
     owner: root:root

@@ -13,6 +13,10 @@
   changed_when: "'configured' in kubectl_apply_cluster.stdout"
   when: v1aX_integration_test_action in provision_cluster_actions
 
+- name: Provision cluster resource set
+  include_tasks: add_calico_clusterressourceset.yml
+  when: v1aX_integration_test_action in provision_cluster_actions
+
 - name: Create control plane
   shell: kubectl apply -f "{{ TEMP_GEN_DIR }}/{{ CAPM3_VERSION }}_controlplane_{{ IMAGE_OS }}.yaml" -n "{{ NAMESPACE }}"
   register: kubectl_apply_controlplane
