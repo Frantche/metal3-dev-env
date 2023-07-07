@@ -382,6 +382,7 @@ fi
 function launch_cluster_api_provider_metal3() {
   pushd "${CAPM3PATH}"
 
+  export EXP_CLUSTER_RESOURCE_SET=true
     # shellcheck disable=SC2153
   clusterctl init --core cluster-api:"${CAPIRELEASE}" --bootstrap kubeadm:"${CAPIRELEASE}" \
     --control-plane kubeadm:"${CAPIRELEASE}" --infrastructure=metal3:"${CAPM3RELEASE}"  -v5
