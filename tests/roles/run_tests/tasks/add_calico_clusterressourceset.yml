@@ -10,7 +10,7 @@
 
   - name: Generate cluster resource set template
     template:
-      src: "{{ CRS_PATH }}/cluster-resourceset"
+      src: "{{ CRS_PATH }}/cluster-resourceset.yaml"
       dest: "{{TEMP_GEN_DIR }}/cluster-resourceset.yaml"
 
   - name: Provision cluster
