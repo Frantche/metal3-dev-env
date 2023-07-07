@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   name: ${ CLUSTER_NAME }
   namespace: ${ NAMESPACE }
-  label:
+  labels:
     cni: calico
 spec:
   clusterNetwork:
