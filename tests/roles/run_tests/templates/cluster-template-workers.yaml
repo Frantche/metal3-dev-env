@@ -68,7 +68,6 @@ spec:
             provider-id: "metal3://{{ '{{ ds.meta_data.providerid }}' }}"
             feature-gates: "AllAlpha=false"
             cgroup-driver: "systemd"
-            container-runtime-endpoint: "unix:///var/run/crio/crio.sock"
             runtime-request-timeout: "5m"
       users:
       - name: {{ IMAGE_USERNAME }}
