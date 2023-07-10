@@ -116,5 +116,9 @@ EXTERNAL_SUBNET_V6: "{{ lookup('env', 'EXTERNAL_SUBNET_V6', default='fd55::/64')
 PROVISIONING_SUBNET_V4: "{{ lookup('env', 'PROVISIONING_SUBNET_V4', default='172.23.23.0/24') }}"
 PROVISIONING_SUBNET_V6: "{{ lookup('env', 'PROVISIONING_SUBNET_V6', default='fd56::/64') }}"
 
+POD_CIDR: "{{ lookup('env', 'POD_CIDR') }}"
+SERVICE_CIDR: "10.96.0.0/12"
+BARE_METAL_PROVISIONER_NETWORK: "{{ lookup('env', 'BARE_METAL_PROVISIONER_NETWORK') | default('172.22.0.0/24', true) }}"
+
 NO_PROXY_STR: "{{ NO_PROXY }}, {{ POD_CIDR }}, {{ SERVICE_CIDR }}, {{ BARE_METAL_PROVISIONER_NETWORK }}, {{ EXTERNAL_SUBNET_V4 }}, {{ EXTERNAL_SUBNET_V6 }}, {{ PROVISIONING_SUBNET_V4 }}, {{ PROVISIONING_SUBNET_V6 }}"
 NO_PROXY_CLEANED: "{{ NO_PROXY_STR  | replace(' ', '') |split(',') | ansible.netcommon.ipaddr | join(',') }}"

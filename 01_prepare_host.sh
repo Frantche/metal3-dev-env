@@ -72,7 +72,7 @@ source lib/network.sh
 
 # TODO: since ansible 8.0.0, pinning by digest is PITA, due additional ansible
 # dependencies, which would need to be pinned as well, so it is skipped for now
-python -m pip install ansible=="${ANSIBLE_VERSION}"
+sudo python -m pip install ansible=="${ANSIBLE_VERSION}"
 
 # Install requirements
 ansible-galaxy install -r vm-setup/requirements.yml
