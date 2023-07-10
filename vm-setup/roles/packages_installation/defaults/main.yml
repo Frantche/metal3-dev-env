@@ -105,3 +105,16 @@ DAEMON_JSON_PATH: "{{ metal3_dir }}/vm-setup/roles/packages_installation/files"
 CONTAINER_RUNTIME: "{{ lookup('env', 'CONTAINER_RUNTIME') }}"
 OS_VERSION_ID: "{{ lookup('env', 'OS_VERSION_ID') }}"
 REGISTRY: "{{ lookup('env', 'REGISTRY') }}"
+
+
+HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default='') }}"
+HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY', default='') }}"
+NO_PROXY: "{{ lookup('env', 'NO_PROXY', default='') }}"
+
+EXTERNAL_SUBNET_V4: "{{ lookup('env', 'EXTERNAL_SUBNET_V4', default='192.168.111.0/24') }}"
+EXTERNAL_SUBNET_V6: "{{ lookup('env', 'EXTERNAL_SUBNET_V6', default='fd55::/64') }}"
+PROVISIONING_SUBNET_V4: "{{ lookup('env', 'PROVISIONING_SUBNET_V4', default='172.23.23.0/24') }}"
+PROVISIONING_SUBNET_V6: "{{ lookup('env', 'PROVISIONING_SUBNET_V6', default='fd56::/64') }}"
+
+NO_PROXY_STR: "{{ NO_PROXY }}, {{ POD_CIDR }}, {{ SERVICE_CIDR }}, {{ BARE_METAL_PROVISIONER_NETWORK }}, {{ EXTERNAL_SUBNET_V4 }}, {{ EXTERNAL_SUBNET_V6 }}, {{ PROVISIONING_SUBNET_V4 }}, {{ PROVISIONING_SUBNET_V6 }}"
+NO_PROXY_CLEANED: "{{ NO_PROXY_STR  | replace(' ', '') |split(',') | ansible.netcommon.ipaddr | join(',') }}"

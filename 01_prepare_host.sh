@@ -72,7 +72,13 @@ source lib/network.sh
 
 # TODO: since ansible 8.0.0, pinning by digest is PITA, due additional ansible
 # dependencies, which would need to be pinned as well, so it is skipped for now
-sudo python -m pip install ansible=="${ANSIBLE_VERSION}"
+if [ -z ${HTTPS_PROXY+x} ]; then 
+  sudo python -m pip install ansible=="${ANSIBLE_VERSION}" --proxy=="${HTTPS_PROXY}"
+else
+  sudo python -m pip install ansible=="${ANSIBLE_VERSION}";
+fi
+
+
 
 # Install requirements
 ansible-galaxy install -r vm-setup/requirements.yml
