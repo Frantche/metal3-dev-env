@@ -23,10 +23,6 @@
       path: "{{ HOME }}/.cluster-api/clusterctl.yaml"
       create: yes 
       state: present
-  
-  - name: Debug variables NO_PROXY_STR
-    ansible.builtin.debug:
-      msg: "{{ NO_PROXY_CLEANED }}"
 
   - name: Generate clusterctl cluster template
     template:

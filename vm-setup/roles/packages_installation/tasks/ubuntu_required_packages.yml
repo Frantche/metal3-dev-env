@@ -111,6 +111,30 @@
             owner: root
             group: root
 
+        - name: Create /etc/systemd/system/docker.service.d
+          file:
+            path: /etc/systemd/system/docker.service.d
+            state: directory
+        
+        - name: HTTP_PROXY config to /etc/systemd/system/docker.service.d/http-proxy.conf
+          template:
+            src: "{{ DAEMON_JSON_PATH }}/http-proxy.conf"
+            dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+            owner: root
+            group: root
+
+        - name: Create /etc/systemd/system/docker.service.d
+          file:
+            path: /etc/systemd/system/docker.service.d
+            state: directory
+        
+        - name: HTTP_PROXY config to /etc/systemd/system/docker.service.d/http-proxy.conf
+          template:
+            src: "{{ DAEMON_JSON_PATH }}/http-proxy.conf"
+            dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+            owner: root
+            group: root
+
         - name: Restart docker systemd service
           service:
             name: docker
