@@ -29,6 +29,18 @@ function prefixlen() {
   export "${resultvar?}"
 }
 
+# Append to no_proxy and NO_PROXY CIDR used by metal3-dev-env
+# Usage: append_no_proxy <IP or CIDR>
+function append_no_proxy() {
+  add_ip=$1
+
+  result=$(python -c "import ipaddress; import os; no_proxy=set(os.environ['no_proxy'].split(',')); add_ip = set([str(ip) for ip in ipaddress.IPv4Network(u\"$add_ip\", False)]); no_proxy.update(add_ip);print(','.join(no_proxy))")
+  
+  export no_proxy="$result"
+  export NO_PROXY="$result"
+
+}
+
 # Option to enable or disable fully NATed network topology
 export ENABLE_NATED_PROVISIONING_NETWORK="${ENABLE_NATED_PROVISIONING_NETWORK:-false}"
 
@@ -72,6 +84,8 @@ network_address CLUSTER_BARE_METAL_PROVISIONER_IP "${BARE_METAL_PROVISIONER_NETW
 export BARE_METAL_PROVISIONER_IP
 export CLUSTER_BARE_METAL_PROVISIONER_IP
 
+append_no_proxy "$BARE_METAL_PROVISIONER_NETWORK"
+
 # shellcheck disable=SC2153
 if [[ "$BARE_METAL_PROVISIONER_IP" = *":"* ]]; then
   export BARE_METAL_RPOVISIONER_URL_HOST="[$BARE_METAL_PROVISIONER_IP]"
@@ -106,6 +120,10 @@ if [[ "${IP_STACK}" == "v4" ]]; then
     export EXTERNAL_SUBNET_V6=""
     export PROVISIONING_SUBNET_V4="${PROVISIONING_SUBNET_V4:-172.23.23.0/24}"
     export PROVISIONING_SUBNET_V6=""
+
+    append_no_proxy "$EXTERNAL_SUBNET_V4"
+    append_no_proxy "$PROVISIONING_SUBNET_V4"
+
 elif [[ "${IP_STACK}" == "v6" ]]; then
     export EXTERNAL_SUBNET_V4=""
     export EXTERNAL_SUBNET_V6="${EXTERNAL_SUBNET_V6:-fd55::/64}"
@@ -116,6 +134,10 @@ elif [[ "${IP_STACK}" == "v4v6" ]]; then
     export EXTERNAL_SUBNET_V6="${EXTERNAL_SUBNET_V6:-fd55::/64}"
     export PROVISIONING_SUBNET_V4="${PROVISIONING_SUBNET_V4:-172.23.23.0/24}"
     export PROVISIONING_SUBNET_V6="${PROVISIONING_SUBNET_V6:-fd56::/64}"
+
+    append_no_proxy "$EXTERNAL_SUBNET_V4"
+    append_no_proxy "$PROVISIONING_SUBNET_V4"
+
 else
     echo "Invalid value of IP_STACK: '${IP_STACK}'"
     exit 1
