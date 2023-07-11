@@ -425,7 +425,7 @@ function create_clouds_yaml() {
 # Start a KinD management cluster
 #
 function launch_kind() {
-  cat <<EOF | sudo su -l -c "kind create cluster --name kind --image=${KIND_NODE_IMAGE} --config=- " "$USER"
+  cat <<EOF | kind create cluster --name kind --image=${KIND_NODE_IMAGE} --config=-
   kind: Cluster
   apiVersion: kind.x-k8s.io/v1alpha4
   containerdConfigPatches:
