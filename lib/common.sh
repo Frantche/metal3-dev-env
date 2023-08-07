@@ -295,6 +295,8 @@ export OPENSTACK_CONFIG="${HOME}/.config/openstack/clouds.yaml"
 
 # Default hosts memory
 export DEFAULT_HOSTS_MEMORY="${DEFAULT_HOSTS_MEMORY:-4096}"
+export DEFAULT_HOSTS_CPU="${DEFAULT_HOSTS_CPU:-2}"
+
 
 # Cluster
 export CLUSTER_NAME="${CLUSTER_NAME:-test1}"
