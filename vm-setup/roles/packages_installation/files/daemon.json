@@ -1,3 +1,4 @@
 {
+    "registry-mirrors": ["{{ MIRROR_DOCKER_IO }}"],
     "insecure-registries" : ["{{ REGISTRY }}"]
 }

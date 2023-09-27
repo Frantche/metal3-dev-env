@@ -106,6 +106,8 @@ CONTAINER_RUNTIME: "{{ lookup('env', 'CONTAINER_RUNTIME') }}"
 OS_VERSION_ID: "{{ lookup('env', 'OS_VERSION_ID') }}"
 REGISTRY: "{{ lookup('env', 'REGISTRY') }}"
 
+MIRROR_DOCKER_IO: "{{ lookup('env', 'MIRROR_DOCKER_IO', default='') }}"
+
 
 HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default='') }}"
 HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY', default='') }}"
